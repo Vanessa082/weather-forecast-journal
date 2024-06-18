@@ -1,24 +1,24 @@
 import pool from "../config/dbconfig.js"
 import { Router } from 'express';
 
-const router =  Router();
+const router = Router();
 
 // GET /entries: Retrieve all journal entries.
 
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   try {
     pool.query("SELECT * FROM journal_entries;", (err, result) => {
-      if(err) throw err;
-      if(result.rows.length < 1) {
-        res.json({message: "No entries in the database"});
+      if (err) next(err);
+      
+      if (result.rows.length < 1) {
+        res.json({ message: "No entries in the database" });
       } else {
-        res,json(result.rows);
+        res.json(result.rows);
       }
     })
   } catch (error) {
     next(error);
   }
-  res.render('index', { title: 'Express' });
 });
 
 // POST /entries: Create a new journal entry with automatic weather fetching.
@@ -28,4 +28,4 @@ router.get('/', function(req, res, next) {
 // DELETE /entries/:id: Delete an entry.
 
 
-module.exports = router;
+export default router;

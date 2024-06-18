@@ -1,6 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv"
-dotenv, config();
+dotenv.config();
 const { Pool } = pg;
 
 const pool = new Pool({
@@ -8,11 +8,14 @@ const pool = new Pool({
   host: process.env.DB_HOST,
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
+  port: process.env.DB_PORT
 });
 
 pool.connect()
-.then(() => console.log("Connected to the database on port 5432"))
-.catch((err) => console.error(err))
+  .then(() => console.log('Connected to the database on port 5432'))
+  .catch((err) => {
+    console.error('Failed to connect to the database', err);
+    process.exit(-1); // Exit process with failure
+  });
 
 export default pool;
