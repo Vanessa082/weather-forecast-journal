@@ -51,6 +51,33 @@ router.get("/:id", function (req, res, next) {
 router.post("/", function (req, res, next) {
   try {
     validateEntriesData(req.body)
+    const { entry_date, description, latitude, longitude } = req.body;
+
+       // Fetch weather information from the OpenWeatherMap API
+       const apiKey = process.env.API_KEY;
+       const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+
+       fetch(weatherUrl)
+       .then(response => {
+         if (!res.ok) {
+           throw new Error(`Weather API error: ${response.statusText}`);
+         }
+         return res.json();
+       });
+
+       
+      //  const temperature =
+      //  const weather_condition =
+      //  const location = 
+
+       // Insert the new journal entry into the database
+      //  const query = `INSERT INTO journal_entries (entry_date, description, temperature, weather_condition, location) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+      //  const values = [entry_date, description, temperature, weather_condition, location];
+
+      //  pool.query(query, values, (err, result) => {
+      //    if (err) return next(err);
+      //    res.status(201).json(result.rows[0]);
+      //  });
   } catch (error) {
     
   }
