@@ -1,6 +1,7 @@
 import pool from "../config/dbconfig.js"
 import { Router } from 'express';
 import validateIdParams from "../utils/validateIdParam.js"
+import validateEntriesData from "../utils/validateEntriesData.js";
 
 const router = Router();
 
@@ -49,7 +50,7 @@ router.get("/:id", function (req, res, next) {
 // POST /entries: Create a new journal entry with automatic weather fetching.
 router.post("/", function (req, res, next) {
   try {
-    
+    validateEntriesData(req.body)
   } catch (error) {
     
   }
