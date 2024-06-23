@@ -55,12 +55,14 @@ function App() {
         <form onSubmit={handleSubmit}>
           <input
             type="date"
+            className="date"
             placeholder="YYYY-MM-DD"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
           <input
             type="text"
+            className="describe"
             placeholder="Describe the day"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
