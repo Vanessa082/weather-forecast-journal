@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import { API_BASE_URL } from "./constants/constants";
 
 function App() {
   const [date, setDate] = useState("");
@@ -30,7 +31,7 @@ function App() {
       longitude,
     };
 
-    const response = await fetch("http://localhost:3000/entries", {
+    const response = await fetch(`${API_BASE_URL}/entries`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
