@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import e from "express";
 
 function App() {
   const [date, setDate] = useState("");
@@ -18,37 +17,37 @@ function App() {
         setLatitude(position.coords.latitude);
       });
     } else {
-      alert("browser doesnot support");
+      alert("Browser does not support Geolocation");
     }
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefaultt();
-    const location = `${longitude},${latitude}`;
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const journalEntry = {
-      entry_date,
+      entry_date: date,
       description,
-      temperature,
-      weatherCondition,
-      location,
+      latitude,
+      longitude,
     };
+
+    const response = await fetch("http://localhost:3000/entries", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(journalEntry),
+    });
+
+    if (response.ok) {
+      const newEntry = await response.json();
+      setWeatherCondition(newEntry.weather_condition);
+      setTemperature(newEntry.temperature);
+      setLocation(newEntry.location);
+      console.log("Entry added successfully");
+    } else {
+      console.error("Error adding entry");
+    }
   };
-
-  const response = await fetch("http://localhost:3000/api/journal", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(journalEntry),
-  });
-
-  if (response.ok) {
-    console.log("Entry added successfully");
-  } else {
-    console.error("Error adding entry");
-  }
-};
 
   return (
     <>
@@ -58,46 +57,25 @@ function App() {
             type="date"
             placeholder="YYYY-MM-DD"
             value={date}
-            onChange={(e) => {
-              setDate(e.target.value);
-            }}
+            onChange={(e) => setDate(e.target.value)}
           />
           <input
             type="text"
             placeholder="Describe the day"
             value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Weather condition"
-            value={weatherCondition}
-            onChange={(e) => {
-              setWeatherCondition(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Temperature"
-            value={temperature}
-            onChange={(e) => {
-              setTemperature(e.target.value);
-            }}
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => {
-              setLocation(e.target.value);
-            }}
+            onChange={(e) => setDescription(e.target.value)}
           />
           <button type="submit">Add Entry</button>
         </form>
+        {weatherCondition && (
+          <div>
+            <p>Weather Condition: {weatherCondition}</p>
+            <p>Temperature: {temperature}°C</p>
+            <p>Location: {location}</p>
+          </div>
+        )}
       </div>
-      <h1>Weather Forcast Journal</h1>
+      <h1>Weather Forecast Journal</h1>
     </>
   );
 }

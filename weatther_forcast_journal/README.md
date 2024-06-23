@@ -1,8 +1,40 @@
-# React + Vite
+### README
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Create a `README.md` for your project:
 
-Currently, two official plugins are available:
+````markdown
+# Weather Forecast Journal
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is a full-stack application for a weather forecast journal, allowing users to create journal entries with automatic weather information fetched based on their current location.
+
+## Features
+
+- Add a new journal entry with automatic weather fetching
+- View all journal entries
+- View a single entry
+- Update a journal entry
+- Delete a journal entry
+
+## Technologies Used
+
+- Backend: Node.js, Express, PostgreSQL
+- Frontend: React, Vite
+- External API: OpenWeatherMap API
+
+## Setup and Installation
+
+### Prerequisites
+
+- Node.js
+- PostgreSQL
+- A weather API key from OpenWeatherMap or any other weather API provider
+
+### Backend Setup
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/your-username/weather-forecast-journal.git
+   cd weather-forecast-journal/backend
+   ```
+````
