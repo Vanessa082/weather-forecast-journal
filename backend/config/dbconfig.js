@@ -49,9 +49,9 @@ pool.connect()
       .catch(err => {
         console.error('Error executing query', err);
       })
-      .finally(() => {
-        pool.end();
-      });
+      // .finally(() => {
+      //   pool.end();
+      // });
   })
   .catch((err) => {
     console.error('Failed to connect to the database', err);

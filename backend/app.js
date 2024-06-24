@@ -1,13 +1,14 @@
 import createError from 'http-errors';
 import express from 'express';
-import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import cors from "cors";
 
 import indexRouter from './routes/index.js';
 import entriesRouter from './routes/entries.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 
 app.use(cors())

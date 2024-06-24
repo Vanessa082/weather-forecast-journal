@@ -39,7 +39,9 @@ router.get("/:id", (req, res, next) => {
 });
 
 // POST /entries: Create a new journal entry with automatic weather fetching
-router.post("/", async (req, res, next) => {
+router.post("/", (req, res, next) => {
+  console.log('Weather API Key:', process.env.WEATHER_API_KEY);
+
   try {
     validateEntriesData(req.body);
     const { entry_date, description, latitude, longitude } = req.body;
@@ -47,24 +49,31 @@ router.post("/", async (req, res, next) => {
     const apiKey = process.env.WEATHER_API_KEY;
     const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
-    const response = await fetch(weatherUrl);
-    if (!response.ok) {
-      throw new Error(`Weather API error: ${response.statusText}`);
-    }
-    const weatherData = await response.json();
+    console.log('Weather URL:', weatherUrl);
 
-    const weather_condition = weatherData.weather[0].description;
-    const temperature = weatherData.main.temp;
-    const location = `${weatherData.name}, ${weatherData.sys.country}`;
+    fetch(weatherUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Weather API error: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(weatherData => {
+        const weather_conditions = weatherData.weather[0].description;
+        const temperature = weatherData.main.temp;
+        const location = `${weatherData.name}, ${weatherData.sys.country}`;
 
-    const query = `INSERT INTO journal_entries (entry_date, description, temperature, weather_condition, location) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-    const values = [entry_date, description, temperature, weather_condition, location];
+        const query = `INSERT INTO journal_entries (entry_date, description, temperature, weather_conditions, location) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+        const values = [entry_date, description, temperature, weather_conditions, location];
 
-    pool.query(query, values, (err, result) => {
-      if (err) return next(err);
-      console.log(err)
-      res.status(201).json(result.rows[0]);
-    });
+        pool.query(query, values, (err, result) => {
+          if (err) return next(err);
+          res.status(201).json(result.rows[0]);
+        });
+      })
+      .catch(error => {
+        next(error);
+      });
   } catch (error) {
     next(error);
   }
