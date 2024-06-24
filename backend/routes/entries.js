@@ -10,7 +10,11 @@ const router = express.Router();
 router.get('/', (req, res, next) => {
   pool.query("SELECT * FROM journal_entries;", (err, result) => {
     if (err) return next(err);
-    res.json(result.rows);
+    if (result.rows.length < 1) {
+      res.json({ message: "There are no entries in the database" });
+    } else {
+      res.json(result.rows);
+    }
   });
 });
 
