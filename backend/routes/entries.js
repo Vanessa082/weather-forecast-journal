@@ -62,6 +62,7 @@ router.post("/", async (req, res, next) => {
 
     pool.query(query, values, (err, result) => {
       if (err) return next(err);
+      console.log(err)
       res.status(201).json(result.rows[0]);
     });
   } catch (error) {
