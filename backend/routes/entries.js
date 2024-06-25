@@ -40,6 +40,8 @@ router.get("/:id", (req, res, next) => {
 
 // POST /entries: Create a new journal entry with automatic weather fetching
 router.post("/", (req, res, next) => {
+  const data = req.body;
+  console.log({ data })
   console.log('Weather API Key:', process.env.WEATHER_API_KEY);
 
   try {
@@ -87,19 +89,19 @@ router.put("/:id", (req, res, next) => {
     validateEntriesData(req.body);
     const { entry_date, description } = req.body;
 
-    pool.query("SELECT * FROM journal_entries WHERE id=$1", [id], (err, result) => {
+    pool.query("SELECT * FROM journal_entries WHERE entry_id=$1", [id], (err, result) => {
       if (err) return next(err);
       if (result?.rowCount === 1) {
-        const updateQuery = `UPDATE journal_entries SET entry_date=$1, description=$2 WHERE id=$3 RETURNING *`;
-        const values = [entry_date, description, id];
+        const updateQuery = `UPDATE journal_entries SET entry_date=$1, description=$2 WHERE entry_id=$3 RETURNING *`;
+        const values = [entry_date, description, id]; // Using 'id' instead of 'entry_id'
         pool.query(updateQuery, values, (err, result) => {
           if (err) return next(err);
           res.json(result.rows[0]);
         });
       } else {
-        const notFoundError = new Error("Entry does not exist");
-        notFoundError.status = 404;
-        next(notFoundError);
+        const error = new Error("Entry does not exist");
+        error.status = 404;
+        next(error);
       }
     });
   } catch (error) {
@@ -107,14 +109,16 @@ router.put("/:id", (req, res, next) => {
   }
 });
 
+
 // DELETE /entries/:id: Delete an entry
 router.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   try {
     validateIdParams(+id);
-    pool.query("DELETE FROM journal_entries WHERE id=$1 RETURNING *", [id], (err, result) => {
+    pool.query("DELETE FROM journal_entries WHERE entry_id=$1 RETURNING *", [id], (err, result) => {
+      // console.log(id)
       if (err) return next(err);
-      if (result.rowCount === 1) {
+      if (result?.rowCount === 1) {
         res.json({ message: `Entry with ID ${id} deleted successfully.` });
       } else {
         const notFoundError = new Error("Entry does not exist");

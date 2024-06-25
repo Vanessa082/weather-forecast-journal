@@ -31,9 +31,10 @@ export default function validateEntriesData(data) {
 
   const { entry_date, description, latitude, longitude } = data;
 
+  console.log("entry_date:", entry_date);
   if (typeof entry_date !== "string" || isNaN(Date.parse(entry_date))) {
     throw new Error("entry_date must be a valid date string");
-  }
+  }  
 
   if (typeof description !== "string" || description.trim() === "" || description.length > 255) {
     throw new Error("Description must be a non-empty string with a maximum length of 255 characters");

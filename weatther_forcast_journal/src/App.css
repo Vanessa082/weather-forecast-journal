@@ -18,3 +18,17 @@ form{
     height: 14vh;
   }
 }
+
+.entry-btn{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background-color: #e8b679;
+  .entry{
+    display: flex;
+
+    p{
+      border: 1px solid #1a1a1a;
+    }
+  }
+}
