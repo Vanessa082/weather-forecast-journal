@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { API_BASE_URL } from "./constants/constants";
-import { all } from "axios";
 
 function App() {
   const [entries, setEntries] = useState([]);
