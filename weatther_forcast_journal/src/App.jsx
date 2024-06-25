@@ -51,13 +51,16 @@ function App() {
         longitude,
       };
 
-      const response = await fetch(`${API_BASE_URL}/entries`, {
-        method: isEditing ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(journalEntry),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}/entries/${isEditing ? editId : ""}`,
+        {
+          method: isEditing ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(journalEntry),
+        }
+      );
 
       if (response.ok) {
         await fetchEntries();
@@ -137,11 +140,11 @@ function App() {
           <div key={entry.entry_id} className="entry-btn">
             <div className="overlay"></div>
             <div className="entry">
-            <p>Date: {entry.entry_date.split("T")[0]}</p>
-            <p>Description: {entry.description}</p>
-            <p>Weather Condition: {entry.weather_condition}</p>
-            <p>Temperature: {entry.temperature}°C</p>
-            <p>Location: {entry.location}</p>
+              <p>Date: {entry.entry_date.split("T")[0]}</p>
+              <p>Description: {entry.description}</p>
+              <p>Weather Condition: {entry.weather_condition}</p>
+              <p>Temperature: {entry.temperature}°C</p>
+              <p>Location: {entry.location}</p>
             </div>
             <button onClick={() => handleEdit(entry)}>Edit</button>
             <button onClick={() => handleDelete(entry.entry_id)}>Delete</button>

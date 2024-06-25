@@ -92,11 +92,11 @@ router.put("/:id", (req, res, next) => {
     pool.query("SELECT * FROM journal_entries WHERE entry_id=$1", [id], (err, result) => {
       if (err) return next(err);
       if (result?.rowCount === 1) {
-        const updateQuery = `UPDATE journal_entries SET entry_date=$1, description=$2 WHERE entry_id=$3 RETURNING *`;
-        const values = [entry_date, description, id]; // Using 'id' instead of 'entry_id'
-        pool.query(updateQuery, values, (err, result) => {
+        pool.query("UPDATE journal_entries SET entry_date=$1, description=$2 WHERE entry_id=$3",
+          [entry_date, description, result.rows[0].id],
+          (err) => {
           if (err) return next(err);
-          res.json(result.rows[0]);
+          res.status(201).send({ message: "Entries updated" });
         });
       } else {
         const error = new Error("Entry does not exist");
