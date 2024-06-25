@@ -116,7 +116,7 @@ router.delete("/:id", (req, res, next) => {
   try {
     validateIdParams(+id);
     pool.query("DELETE FROM journal_entries WHERE entry_id=$1 RETURNING *", [id], (err, result) => {
-      // console.log(id)
+      console.log("this is the id".id)
       if (err) return next(err);
       if (result?.rowCount === 1) {
         res.json({ message: `Entry with ID ${id} deleted successfully.` });
