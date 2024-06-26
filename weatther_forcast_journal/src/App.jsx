@@ -88,7 +88,7 @@ function App() {
     setTemperature(entry.temperature);
     setLocation(entry.location);
     setIsEditing(true);
-    setEditId(entry.id);
+    setEditId(entry.entry_id);
   };
 
   const handleDelete = async (id) => {
