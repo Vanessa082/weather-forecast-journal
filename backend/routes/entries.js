@@ -84,12 +84,14 @@ router.post("/", (req, res, next) => {
 // PUT /entries/:id: Update an existing entry
 router.put("/:id", (req, res, next) => {
   const { id } = req.params;
+  const numericId = Number(id);
   try {
     validateIdParams(+id);
     validateEntriesData(req.body);
     const { entry_date, description } = req.body;
 
-    pool.query("SELECT * FROM journal_entries WHERE entry_id=$1", [id], (err, result) => {
+    pool.query("SELECT * FROM journal_entries WHERE entry_id=$1", [numericId], (err, result) => {
+      console.log("hey", id)
       if (err) return next(err);
       if (result?.rowCount === 1) {
         pool.query("UPDATE journal_entries SET entry_date=$1, description=$2 WHERE entry_id=$3",
