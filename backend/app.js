@@ -5,7 +5,6 @@ import logger from 'morgan';
 import cors from "cors";
 
 import indexRouter from './routes/index.js';
-import entriesRouter from './routes/entries.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,7 +18,6 @@ app.use(cookieParser());
 // app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/entries', entriesRouter);
 // app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
