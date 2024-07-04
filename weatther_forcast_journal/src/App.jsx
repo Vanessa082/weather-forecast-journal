@@ -138,7 +138,7 @@ function App() {
       </div>
       <h1>Weather Forecast Journal</h1>
       <div className="entries-space">
-        {entries?.map((entry) => (
+        {entries?.slice().reverse().map((entry) => (
           <div key={entry.entry_id} className="entry-btn">
             <div className="overlay"></div>
             <div className="entry">
