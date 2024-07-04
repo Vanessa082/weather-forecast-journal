@@ -71,7 +71,6 @@ function App() {
         setLocation("");
         setIsEditing(false);
         setEditId(null);
-        console.log("Entry added/updated successfully");
       } else {
         console.error("Error adding/updating entry");
       }
