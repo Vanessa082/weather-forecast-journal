@@ -26,7 +26,7 @@ Follow these instructions to set up the project on your local machine.
 1. Clone the repository:
 
 ```bash
-  $ git clone https://github.com/your-username/journal-entries-api.git # to install all dependencies
+  $ git clone git@github.com:Vanessa082/weather-forecast-journal.git # to install all dependencies
   $ cd weather-forecast-journal #to enter main file
   $ cd backend # to enter api file
 ```

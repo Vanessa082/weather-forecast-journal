@@ -11,6 +11,7 @@ function App() {
   const [location, setLocation] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(false); // New loading state
 
   useEffect(() => {
     fetchEntries();
@@ -19,7 +20,6 @@ function App() {
   const fetchEntries = async () => {
     const response = await fetch(`${API_BASE_URL}/entries`);
     const data = await response.json();
-
     setEntries(data?.length ? data : []);
   };
 
@@ -40,6 +40,7 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading state to true
 
     try {
       const { longitude, latitude } = await getGeoLocation();
@@ -76,6 +77,8 @@ function App() {
       }
     } catch (error) {
       alert(error?.message || error);
+    } finally {
+      setLoading(false); // Set loading state to false after operation
     }
   };
 
@@ -128,13 +131,13 @@ function App() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
-          <button type="submit">
-            {isEditing ? "Update Entry" : "Add Entry"}
+          <button type="submit" disabled={loading}>
+            {isEditing ? "Update Entry" : loading ? "Adding..." : "Add Entry"}
           </button>
         </form>
       </div>
       <h1>Weather Forecast Journal</h1>
-      <div>
+      <div className="entries-space">
         {entries?.map((entry) => (
           <div key={entry.entry_id} className="entry-btn">
             <div className="overlay"></div>
