@@ -1,0 +1,30 @@
+body{
+  background-image: url('assets/image/bg.jpeg');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+form{
+  padding-top: 9rem;
+  overlay: 1 black;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .describe{
+    height: 14vh;
+  }
+}
+
+.entry-btn{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e8b679;
+  border: 1px solid #1a1a1a;
+  padding: 2rem;
+}
